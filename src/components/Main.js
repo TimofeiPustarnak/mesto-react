@@ -12,7 +12,7 @@ class Main extends React.Component {
             src={user}
             alt="аватар"
             className="profile__avatar"
-            onClick={this.handleEditAvatarClick}
+            onClick={this.props.onEditAvatar}
           />
           <div className="profile__avatar-edit"></div>
           <div className="profile__info">
@@ -21,7 +21,7 @@ class Main extends React.Component {
               <button
                 className="profile__edit-button"
                 type="button"
-                onClick={this.handleEditProfileClick}
+                onClick={this.props.onEditProfile}
               >
                 <img
                   src={editImg}
@@ -35,7 +35,7 @@ class Main extends React.Component {
           <button
             className="profile__add-button"
             type="button"
-            onClick={this.handleAddPlaceClick}
+            onClick={this.props.onAddPlace}
           >
             <img src={cross} alt="добавить" className="profile__add-image" />
           </button>

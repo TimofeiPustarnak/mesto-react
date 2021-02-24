@@ -6,25 +6,49 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditProfilePopupOpen: false,
+      isAddPlacePopupOpen: false,
+      isEditAvatarPopupOpen: false,
+    };
+  }
   handleEditAvatarClick() {
-    document.querySelector("#popup-avatar").classList.add("popup_opened");
+    console.log(1);
+    this.setState({ isEditAvatarPopupOpen: true });
   }
 
   handleEditProfileClick() {
-    document.querySelector("#popup-person").classList.add("popup_opened");
+    console.log(2);
+    this.setState({ isEditProfilePopupOpen: true });
   }
 
   handleAddPlaceClick() {
-    document.querySelector("#popup-card").classList.add("popup_opened");
+    console.log(3);
+    this.setState({ isAddPlacePopupOpen: true });
+  }
+  closeAllPopups() {
+    this.setState({
+      isEditAvatarPopupOpen: false,
+      isEditProfilePopupOpen: false,
+      isAddPlacePopupOpen: false,
+    });
   }
   render() {
     return (
       <div className="page">
         <Header />
-        <Main />
+        <Main
+          onEditProfile={this.handleEditProfileClick.bind(this)}
+          onAddPlace={this.handleAddPlaceClick.bind(this)}
+          onEditAvatar={this.handleEditAvatarClick.bind(this)}
+        />
         <Footer />
         <ImagePopup />
         <PopupWithForm
+          onClose={this.closeAllPopups.bind(this)}
+          isOpen={this.state.isEditAvatarPopupOpen}
           id="popup-avatar"
           class="EditAvatar"
           smallForm={false}
@@ -47,6 +71,8 @@ class App extends React.Component {
           submitId="popup-edit-avatar-button"
         />
         <PopupWithForm
+          onClose={this.closeAllPopups.bind(this)}
+          isOpen={this.state.isAddPlacePopupOpen}
           id="popup-card"
           class="AddCard"
           smallForm={false}
@@ -80,6 +106,8 @@ class App extends React.Component {
           submitId="popup-addCard-button"
         />
         <PopupWithForm
+          onClose={this.closeAllPopups.bind(this)}
+          isOpen={this.state.isEditProfilePopupOpen}
           id="popup-person"
           class="Person"
           smallForm={false}
@@ -113,6 +141,8 @@ class App extends React.Component {
           submitId="popup-person-submit-button"
         />
         <PopupWithForm
+          onClose={this.closeAllPopups.bind(this)}
+          isOpen={false}
           id="popup-close"
           class="Confirm"
           smallForm={true}

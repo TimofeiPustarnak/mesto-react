@@ -10,7 +10,12 @@ class PopupWithForm extends React.Component {
   render() {
     return (
       <>
-        <div className={`popup popup${this.props.class}`} id={this.props.id}>
+        <div
+          className={`popup ${this.props.isOpen ? "popup_opened" : ""} popup${
+            this.props.class
+          }`}
+          id={this.props.id}
+        >
           <form
             className={`popup__container ${
               this.props.smallForm ? "popup__container_small" : ""
@@ -19,7 +24,11 @@ class PopupWithForm extends React.Component {
             name="card-link-&-title"
             noValidate
           >
-            <button className="popup__close-button" type="button">
+            <button
+              className="popup__close-button"
+              type="button"
+              onClick={this.props.onClose}
+            >
               <img src={cross} alt="закрыть" className="popup__close-image" />
             </button>
             <h3 className={`popup__title ${this.props.additionalTitleClass}`}>
