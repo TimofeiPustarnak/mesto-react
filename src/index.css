@@ -1,13 +1,14 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+@import url(/src/vendor/normalize.css);
+@import url(/src/vendor/scroll.css);
+@import url(/src/vendor/fonts/inter.css);
+@import url(/src/blocks/page/page.css);
+@import url(/src/blocks/header/header.css);
+@import url(/src/blocks/profile/profile.css);
+@import url(/src/blocks/elements/elements.css);
+@import url(/src/blocks/footer/footer.css);
+@import url(/src/blocks/popup/popup.css);
+@import url(/src/blocks/popup/_opened/popup_opened.css);
+@import url(/src/blocks/popup/__field/_type/_description/popup__field_type_description.css);
+@import url(/src/blocks/elements/__like/_active/elements__like_active.css);
+@import url(/src/blocks/popup/__submit-button_inactive/popup__submit-button_inactive.css);
+@import url(/src/blocks/popup/__field_type_error/popup__field_type_error.css);
