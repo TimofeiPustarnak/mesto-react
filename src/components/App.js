@@ -1,177 +1,130 @@
-// import pen from "./images/pen.svg";
-import cross from "../images/Vector(1).svg";
+import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
-function App() {
-  return (
-    <div className="page">
-      <Header />
-      <Main />
-      <Footer />
-      <div className="popup popupPerson" id="popup-person">
-        <form
-          className="popup__container"
-          method="get"
-          name="person-name-and-job"
-          novalidate
-        >
-          <button className="popup__close-button" type="button">
-            <img src={cross} alt="закрыть" className="popup__close-image" />
-          </button>
-          <h3 className="popup__title">Редактировать профиль</h3>
-          <div className="popup__input-wrapper">
-            <input
-              type="text"
-              className="popup__field popup__field_type_name"
-              name="name"
-              id="name-input"
-              placeholder="Имя"
-              required
-              minlength="2"
-              maxlength="40"
-            />
-            <span className="popup__field-error" id="name-input-error"></span>
-          </div>
-          <div className="popup__input-wrapper">
-            <input
-              type="text"
-              className="popup__field popup__field_type_description"
-              id="description-input"
-              name="description"
-              placeholder="О себе"
-              required
-              minlength="2"
-              maxlength="200"
-            />
-            <span
-              className="popup__field-error"
-              id="description-input-error"
-            ></span>
-          </div>
-          <input
-            type="submit"
-            className="popup__submit-button"
-            name="submit-button"
-            value="Сохранить"
-            id="popup-person-submit-button"
-          />
-        </form>
-      </div>
+class App extends React.Component {
+  handleEditAvatarClick() {
+    document.querySelector("#popup-avatar").classList.add("popup_opened");
+  }
 
-      <div className="popup popupAddCard" id="popup-card">
-        <form
-          className="popup__container"
-          method="get"
-          name="card-link-&-title"
-          novalidate
-        >
-          <button className="popup__close-button" type="button">
-            <img src={cross} alt="закрыть" className="popup__close-image" />
-          </button>
-          <h3 className="popup__title">Новое место</h3>
-          <div className="popup__input-wrapper">
-            <input
-              type="text"
-              className="popup__field popup__field_type_name"
-              name="title"
-              id="title-input"
-              placeholder="Название"
-              required
-              minlength="2"
-              maxlength="30"
-            />
-            <span className="popup__field-error" id="title-input-error"></span>
-          </div>
-          <div className="popup__input-wrapper">
-            <input
-              type="url"
-              className="popup__field popup__field_type_description"
-              id="link-input"
-              name="link"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span className="popup__field-error" id="link-input-error"></span>
-          </div>
-          <input
-            type="submit"
-            className="popup__submit-button"
-            name="submit-button"
-            value="Создать"
-            id="popup-addCard-button"
-          />
-        </form>
-      </div>
+  handleEditProfileClick() {
+    document.querySelector("#popup-person").classList.add("popup_opened");
+  }
 
-      <div className="popup popupImage" id="popup-image">
-        <div className="popup__case">
-          <img className="popup__image" src="/" alt="/" />
-          <button className="popup__close-button" type="button">
-            <img src={cross} alt="закрыть" className="popup__close-image" />
-          </button>
-          <h3 className="popup__image-title"></h3>
-        </div>
+  handleAddPlaceClick() {
+    document.querySelector("#popup-card").classList.add("popup_opened");
+  }
+  render() {
+    return (
+      <div className="page">
+        <Header />
+        <Main />
+        <Footer />
+        <ImagePopup />
+        <PopupWithForm
+          id="popup-avatar"
+          class="EditAvatar"
+          smallForm={false}
+          titleContent="Обновить аватар"
+          additionalTitleClass=""
+          fieldsData={[
+            {
+              key: 1,
+              type: "url",
+              className: "popup__field_type_description",
+              id: "link-input-edit",
+              name: "link",
+              placeholder: "Ссылка на картинку",
+              minlength: "0",
+              maxlength: "10000",
+              spanId: "link-input-edit-error",
+            },
+          ]}
+          submitValue="Сохранить"
+          submitId="popup-edit-avatar-button"
+        />
+        <PopupWithForm
+          id="popup-card"
+          class="AddCard"
+          smallForm={false}
+          titleContent="Новое место"
+          additionalTitleClass=""
+          fieldsData={[
+            {
+              key: 1,
+              type: "text",
+              className: "popup__field_type_name",
+              id: "title-input",
+              name: "title",
+              placeholder: "Название",
+              minlength: "2",
+              maxlength: "30",
+              spanId: "title-input-error",
+            },
+            {
+              key: 2,
+              type: "url",
+              className: "popup__field_type_description",
+              id: "link-input",
+              name: "link",
+              placeholder: "Ссылка на картинку",
+              minlength: "0",
+              maxlength: "10000",
+              spanId: "link-input-error",
+            },
+          ]}
+          submitValue="Создать"
+          submitId="popup-addCard-button"
+        />
+        <PopupWithForm
+          id="popup-person"
+          class="Person"
+          smallForm={false}
+          titleContent="Редактировать профиль"
+          additionalTitleClass=""
+          fieldsData={[
+            {
+              key: 1,
+              type: "text",
+              className: "popup__field_type_name",
+              id: "name-input",
+              name: "name",
+              placeholder: "Имя",
+              minlength: "2",
+              maxlength: "40",
+              spanId: "name-input-error",
+            },
+            {
+              key: 2,
+              type: "text",
+              className: "popup__field_type_description",
+              id: "description-input",
+              name: "description",
+              placeholder: "О себе",
+              minlength: "2",
+              maxlength: "200",
+              spanId: "description-input-error",
+            },
+          ]}
+          submitValue="Сохранить"
+          submitId="popup-person-submit-button"
+        />
+        <PopupWithForm
+          id="popup-close"
+          class="Confirm"
+          smallForm={true}
+          titleContent="Вы уверены?"
+          additionalTitleClass="popup__title_popup-close"
+          fieldsData={[]}
+          submitValue="Да"
+          submitId="popup-confirm-button"
+        />
       </div>
-
-      <div className="popup popupConfirm" id="popup-close">
-        <form
-          className="popup__container popup__container_small"
-          method="get"
-          name="card-link-&-title"
-          novalidate
-        >
-          <button className="popup__close-button" type="button">
-            <img src={cross} alt="закрыть" className="popup__close-image" />
-          </button>
-          <h3 className="popup__title popup__title_popup-close">Вы уверены?</h3>
-          <input
-            type="button"
-            className="popup__submit-button popup__submit-button-close"
-            name="submit-button"
-            id="popup-confirm-button"
-            value="Да"
-          />
-        </form>
-      </div>
-
-      <div className="popup popupEditAvatar" id="popup-avatar">
-        <form
-          className="popup__container"
-          method="get"
-          name="card-link-&-title"
-          novalidate
-        >
-          <button className="popup__close-button" type="button">
-            <img src={cross} alt="закрыть" className="popup__close-image" />
-          </button>
-          <h3 className="popup__title">Обновить аватар</h3>
-          <div className="popup__input-wrapper">
-            <input
-              type="url"
-              className="popup__field popup__field_type_description"
-              id="link-input-edit"
-              name="link"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span
-              className="popup__field-error"
-              id="link-input-edit-error"
-            ></span>
-          </div>
-          <input
-            type="submit"
-            className="popup__submit-button"
-            name="submit-button"
-            value="Сохранить"
-            id="popup-edit-avatar-button"
-          />
-        </form>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;

@@ -4,18 +4,6 @@ import user from "../images/user.png";
 import cross from "../images/Vector(1).svg";
 import deleteImg from "../images/Group.svg";
 class Main extends React.Component {
-  handleEditAvatarClick() {
-    document.querySelector("#popup-avatar").classList.add("popup_opened");
-  }
-
-  handleEditProfileClick() {
-    document.querySelector("#popup-person").classList.add("popup_opened");
-  }
-
-  handleAddPlaceClick() {
-    document.querySelector("#popup-card").classList.add("popup_opened");
-  }
-
   render() {
     return (
       <>
