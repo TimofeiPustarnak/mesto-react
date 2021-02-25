@@ -12,27 +12,29 @@ class App extends React.Component {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
+      selectedCard: { isOpen: false, link: "", name: "" },
     };
   }
   handleEditAvatarClick() {
-    console.log(1);
     this.setState({ isEditAvatarPopupOpen: true });
   }
 
   handleEditProfileClick() {
-    console.log(2);
     this.setState({ isEditProfilePopupOpen: true });
   }
 
   handleAddPlaceClick() {
-    console.log(3);
     this.setState({ isAddPlacePopupOpen: true });
+  }
+  handleCardClick(name, link) {
+    this.setState({ selectedCard: { isOpen: true, link: link, name: name } });
   }
   closeAllPopups() {
     this.setState({
       isEditAvatarPopupOpen: false,
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
+      selectedCard: { isOpen: false },
     });
   }
   render() {
@@ -40,12 +42,16 @@ class App extends React.Component {
       <div className="page">
         <Header />
         <Main
+          handleCardClick={this.handleCardClick.bind(this)}
           onEditProfile={this.handleEditProfileClick.bind(this)}
           onAddPlace={this.handleAddPlaceClick.bind(this)}
           onEditAvatar={this.handleEditAvatarClick.bind(this)}
         />
         <Footer />
-        <ImagePopup />
+        <ImagePopup
+          data={this.state.selectedCard}
+          onClose={this.closeAllPopups.bind(this)}
+        />
         <PopupWithForm
           onClose={this.closeAllPopups.bind(this)}
           isOpen={this.state.isEditAvatarPopupOpen}

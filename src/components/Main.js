@@ -1,15 +1,48 @@
 import React from "react";
 import editImg from "../images/Vector.svg";
-import user from "../images/user.png";
 import cross from "../images/Vector(1).svg";
-import deleteImg from "../images/Group.svg";
+import api from "../utils/Api";
+import Card from "./Card";
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: "",
+      userDescription: "",
+      userAvatar: "",
+      cards: [],
+    };
+  }
+  componentDidMount() {
+    api
+      .getUserInfo()
+      .then((data) => {
+        this.setState({
+          userName: data.name,
+          userDescription: data.about,
+          userAvatar: data.avatar,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    api
+      .getInitialCards()
+      .then((data) => {
+        this.setState({
+          cards: data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   render() {
     return (
       <>
         <section className="profile">
           <img
-            src={user}
+            src={this.state.userAvatar}
             alt="аватар"
             className="profile__avatar"
             onClick={this.props.onEditAvatar}
@@ -17,7 +50,7 @@ class Main extends React.Component {
           <div className="profile__avatar-edit"></div>
           <div className="profile__info">
             <div className="profile__edit">
-              <h1 className="profile__title"></h1>
+              <h1 className="profile__title">{this.state.userName}</h1>
               <button
                 className="profile__edit-button"
                 type="button"
@@ -30,7 +63,7 @@ class Main extends React.Component {
                 />
               </button>
             </div>
-            <p className="profile__subtitle"></p>
+            <p className="profile__subtitle">{this.state.userDescription}</p>
           </div>
           <button
             className="profile__add-button"
@@ -41,19 +74,14 @@ class Main extends React.Component {
           </button>
         </section>
         <section className="elements">
-          <template id="cards">
-            <article className="elements__element">
-              <img src={deleteImg} className="elements__delete" alt="удалить" />
-              <img className="elements__image" src="/" alt="/" />
-              <div className="elements__group">
-                <p className="elements__title"></p>
-                <div className="elements__group-like">
-                  <div className="elements__like"></div>
-                  <p className="elements__like-counter">0</p>
-                </div>
-              </div>
-            </article>
-          </template>
+          {this.state.cards.map((card, i) => (
+            <Card
+              key={i}
+              name={card.name}
+              link={card.link}
+              onCardClick={this.props.handleCardClick}
+            />
+          ))}
         </section>
       </>
     );
