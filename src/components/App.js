@@ -42,10 +42,10 @@ class App extends React.Component {
       <div className="page">
         <Header />
         <Main
-          handleCardClick={this.handleCardClick.bind(this)}
           onEditProfile={this.handleEditProfileClick.bind(this)}
           onAddPlace={this.handleAddPlaceClick.bind(this)}
           onEditAvatar={this.handleEditAvatarClick.bind(this)}
+          handleCardClick={this.handleCardClick.bind(this)}
         />
         <Footer />
         <ImagePopup
