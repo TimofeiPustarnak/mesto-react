@@ -62,7 +62,6 @@ class App extends React.Component {
           additionalTitleClass=""
           fieldsData={[
             {
-              key: 1,
               type: "url",
               className: "popup__field_type_description",
               id: "link-input-edit",
@@ -86,7 +85,6 @@ class App extends React.Component {
           additionalTitleClass=""
           fieldsData={[
             {
-              key: 1,
               type: "text",
               className: "popup__field_type_name",
               id: "title-input",
@@ -97,7 +95,6 @@ class App extends React.Component {
               spanId: "title-input-error",
             },
             {
-              key: 2,
               type: "url",
               className: "popup__field_type_description",
               id: "link-input",
@@ -121,7 +118,6 @@ class App extends React.Component {
           additionalTitleClass=""
           fieldsData={[
             {
-              key: 1,
               type: "text",
               className: "popup__field_type_name",
               id: "name-input",
@@ -132,7 +128,6 @@ class App extends React.Component {
               spanId: "name-input-error",
             },
             {
-              key: 2,
               type: "text",
               className: "popup__field_type_description",
               id: "description-input",

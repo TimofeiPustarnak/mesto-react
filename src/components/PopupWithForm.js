@@ -35,7 +35,7 @@ class PopupWithForm extends React.Component {
               {this.props.titleContent}
             </h3>
             {this.props.fieldsData.map((field, i) => (
-              <div className="popup__input-wrapper" key={field.key}>
+              <div className="popup__input-wrapper" key={i}>
                 <input
                   type={field.type}
                   className={`popup__field ${field.className}`}

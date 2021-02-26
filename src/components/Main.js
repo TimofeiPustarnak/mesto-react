@@ -1,7 +1,7 @@
 import React from "react";
 import editImg from "../images/Vector.svg";
 import cross from "../images/Vector(1).svg";
-import api from "../utils/Api";
+import api from "../utils/api";
 import Card from "./Card";
 class Main extends React.Component {
   constructor(props) {
@@ -76,9 +76,8 @@ class Main extends React.Component {
         <section className="elements">
           {this.state.cards.map((card, i) => (
             <Card
-              key={i}
-              name={card.name}
-              link={card.link}
+              key={card._id}
+              card={card}
               onCardClick={this.props.handleCardClick}
             />
           ))}
