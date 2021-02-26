@@ -1,4 +1,5 @@
 class Api {
+  // после переименования автоматическая проверка проекта перед ревью пишет: Не экспортирован класс Api.
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
