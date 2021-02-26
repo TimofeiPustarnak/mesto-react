@@ -1,7 +1,7 @@
 import React from "react";
 import editImg from "../images/Vector.svg";
 import cross from "../images/Vector(1).svg";
-import api from "../utils/api";
+import api from "../utils/Api";
 import Card from "./Card";
 class Main extends React.Component {
   constructor(props) {
