@@ -6,7 +6,6 @@ class Card extends React.Component {
     this.props.onCardClick(this.props.card.name, this.props.card.link);
   }
   render() {
-    console.log(this.props.card);
     return (
       <article className="elements__element">
         <img src={deleteImg} className="elements__delete" alt="удалить" />
