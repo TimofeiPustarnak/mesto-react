@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 class App extends React.Component {
   constructor(props) {
@@ -124,38 +125,10 @@ class App extends React.Component {
             submitValue="Создать"
             submitId="popup-addCard-button"
           />
-          <PopupWithForm
+          <EditProfilePopup
+            onOpen={this.handleEditProfileClick.bind(this)}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isEditProfilePopupOpen}
-            id="popup-person"
-            class="Person"
-            smallForm={false}
-            titleContent="Редактировать профиль"
-            additionalTitleClass=""
-            fieldsData={[
-              {
-                type: "text",
-                className: "popup__field_type_name",
-                id: "name-input",
-                name: "name",
-                placeholder: "Имя",
-                minlength: "2",
-                maxlength: "40",
-                spanId: "name-input-error",
-              },
-              {
-                type: "text",
-                className: "popup__field_type_description",
-                id: "description-input",
-                name: "description",
-                placeholder: "О себе",
-                minlength: "2",
-                maxlength: "200",
-                spanId: "description-input-error",
-              },
-            ]}
-            submitValue="Сохранить"
-            submitId="popup-person-submit-button"
           />
           <PopupWithForm
             onClose={this.closeAllPopups.bind(this)}
