@@ -70,6 +70,7 @@ class App extends React.Component {
             onClose={this.closeAllPopups.bind(this)}
           />
           <PopupWithForm
+            value={["link"]}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isEditAvatarPopupOpen}
             id="popup-avatar"
@@ -77,22 +78,11 @@ class App extends React.Component {
             smallForm={false}
             titleContent="Обновить аватар"
             additionalTitleClass=""
-            fieldsData={[
-              {
-                type: "url",
-                className: "popup__field_type_description",
-                id: "link-input-edit",
-                name: "link",
-                placeholder: "Ссылка на картинку",
-                minlength: "0",
-                maxlength: "10000",
-                spanId: "link-input-edit-error",
-              },
-            ]}
             submitValue="Сохранить"
             submitId="popup-edit-avatar-button"
-          />
+          ></PopupWithForm>
           <PopupWithForm
+            value={["title", "link"]}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isAddPlacePopupOpen}
             id="popup-card"
@@ -100,37 +90,16 @@ class App extends React.Component {
             smallForm={false}
             titleContent="Новое место"
             additionalTitleClass=""
-            fieldsData={[
-              {
-                type: "text",
-                className: "popup__field_type_name",
-                id: "title-input",
-                name: "title",
-                placeholder: "Название",
-                minlength: "2",
-                maxlength: "30",
-                spanId: "title-input-error",
-              },
-              {
-                type: "url",
-                className: "popup__field_type_description",
-                id: "link-input",
-                name: "link",
-                placeholder: "Ссылка на картинку",
-                minlength: "0",
-                maxlength: "10000",
-                spanId: "link-input-error",
-              },
-            ]}
             submitValue="Создать"
             submitId="popup-addCard-button"
-          />
+          ></PopupWithForm>
           <EditProfilePopup
             onOpen={this.handleEditProfileClick.bind(this)}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isEditProfilePopupOpen}
           />
           <PopupWithForm
+            value={[]}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={false}
             id="popup-close"
@@ -141,7 +110,7 @@ class App extends React.Component {
             fieldsData={[]}
             submitValue="Да"
             submitId="popup-confirm-button"
-          />
+          ></PopupWithForm>
         </div>
       </CurrentUserContext.Provider>
     );
