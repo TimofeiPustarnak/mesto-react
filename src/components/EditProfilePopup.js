@@ -3,7 +3,7 @@ import PopupWithForm from "../components/PopupWithForm";
 class EditProfilePopup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { name: "", description: "" };
   }
 
   render() {
