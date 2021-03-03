@@ -36,6 +36,7 @@ class PopupWithForm extends React.Component {
             </h3>
             {this.props.children}
             <input
+              onClick={this.props.onSubmit}
               type="submit"
               className="popup__submit-button"
               name="submit-button"

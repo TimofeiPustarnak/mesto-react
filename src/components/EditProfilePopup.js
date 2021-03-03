@@ -1,5 +1,7 @@
 import React from "react";
 import PopupWithForm from "../components/PopupWithForm";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
 class EditProfilePopup extends React.Component {
   constructor(props) {
     super(props);
@@ -13,11 +15,21 @@ class EditProfilePopup extends React.Component {
   handleChangeDescription(e) {
     this.setState({ description: e.target.value });
   }
-
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log(3);
+    this.props.onUpdateUser(this.state.name, this.state.description);
+  }
+  static contextType = CurrentUserContext;
+  componentDidMount() {
+    this.setState({ name: this.context.name });
+    this.setState({ description: this.context.about });
+  }
   render() {
     return (
       <>
         <PopupWithForm
+          onSubmit={this.handleSubmit.bind(this)}
           onClose={this.props.onClose}
           onOpen={this.props.onOpen}
           isOpen={this.props.isOpen}
@@ -40,6 +52,8 @@ class EditProfilePopup extends React.Component {
               required
               minLength="2"
               maxLength="40"
+              value={this.state.name}
+              onChange={this.handleChangeName.bind(this)}
             />
             <span className="popup__field-error" id="name-input-error"></span>
           </div>
@@ -53,6 +67,8 @@ class EditProfilePopup extends React.Component {
               required
               minLength="2"
               maxLength="200"
+              value={this.state.description}
+              onChange={this.handleChangeDescription.bind(this)}
             />
             <span
               className="popup__field-error"

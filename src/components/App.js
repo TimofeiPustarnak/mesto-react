@@ -7,6 +7,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,6 +34,32 @@ class App extends React.Component {
   handleCardClick(name, link) {
     this.setState({ selectedCard: { isOpen: true, link: link, name: name } });
   }
+  handleUpdateUser(name, about) {
+    console.log(name);
+    console.log(about);
+    api
+      .patchUserInfo(name, about)
+      .then((data) => {
+        this.setState({ currentUser: data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.closeAllPopups();
+  }
+  handleUpdateAvatar(link) {
+    console.log(link);
+    api
+      .editAvatar(link)
+      .then((data) => {
+        this.setState({ currentUser: data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.closeAllPopups();
+  }
+
   closeAllPopups() {
     this.setState({
       isEditAvatarPopupOpen: false,
@@ -69,18 +96,11 @@ class App extends React.Component {
             data={this.state.selectedCard}
             onClose={this.closeAllPopups.bind(this)}
           />
-          <PopupWithForm
-            value={["link"]}
+          <EditAvatarPopup
+            onUpdateAvatar={this.handleUpdateAvatar.bind(this)}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isEditAvatarPopupOpen}
-            id="popup-avatar"
-            class="EditAvatar"
-            smallForm={false}
-            titleContent="Обновить аватар"
-            additionalTitleClass=""
-            submitValue="Сохранить"
-            submitId="popup-edit-avatar-button"
-          ></PopupWithForm>
+          ></EditAvatarPopup>
           <PopupWithForm
             value={["title", "link"]}
             onClose={this.closeAllPopups.bind(this)}
@@ -94,6 +114,7 @@ class App extends React.Component {
             submitId="popup-addCard-button"
           ></PopupWithForm>
           <EditProfilePopup
+            onUpdateUser={this.handleUpdateUser.bind(this)}
             onOpen={this.handleEditProfileClick.bind(this)}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isEditProfilePopupOpen}
