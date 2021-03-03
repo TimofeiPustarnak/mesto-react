@@ -3,8 +3,9 @@ class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
-    this.likeBind = this.like.bind(this);
-    this.unLikeBind = this.unLike.bind(this);
+    // this.likeBind = this.like.bind(this);
+    // this.unLikeBind = this.unLike.bind(this);
+    this.changeLikeCardStatus = this.changeLikeCardStatus.bind(this);
     this.deleteCardBind = this.deleteCard.bind(this);
   }
 
@@ -54,19 +55,33 @@ class Api {
     }).then((res) => this._check(res));
   }
 
-  like(id) {
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
-      method: "PUT",
-      headers: this._headers,
-    }).then((res) => this._check(res));
+  // like(id) {
+  //   return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+  //     method: "PUT",
+  //     headers: this._headers,
+  //   }).then((res) => this._check(res));
+  // }
+
+  changeLikeCardStatus(id, isLike) {
+    if (isLike) {
+      return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+        method: "PUT",
+        headers: this._headers,
+      }).then((res) => this._check(res));
+    } else {
+      return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+        method: "DELETE",
+        headers: this._headers,
+      }).then((res) => this._check(res));
+    }
   }
 
-  unLike(id) {
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then((res) => this._check(res));
-  }
+  // unLike(id) {
+  //   return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+  //     method: "DELETE",
+  //     headers: this._headers,
+  //   }).then((res) => this._check(res));
+  // }
 
   deleteCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}`, {
