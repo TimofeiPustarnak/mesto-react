@@ -8,6 +8,7 @@ import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 class App extends React.Component {
   constructor(props) {
@@ -15,9 +16,11 @@ class App extends React.Component {
     this.state = {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
+      isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
       selectedCard: { isOpen: false, link: "", name: "" },
       currentUser: false,
+      cards: [],
     };
   }
   handleEditAvatarClick() {
@@ -65,6 +68,7 @@ class App extends React.Component {
       isEditAvatarPopupOpen: false,
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
+      isAddPlacePopupOpen: false,
       selectedCard: { isOpen: false },
     });
   }
@@ -80,12 +84,68 @@ class App extends React.Component {
       });
   }
 
+  getInitialCards() {
+    api
+      .getInitialCards()
+      .then((data) => {
+        this.setState({
+          cards: data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  handleCardLike(card) {
+    let isLiked = false;
+    for (let i = 0; i < card.likes.length; ++i) {
+      if (card.likes[i]._id == this.state.currentUser._id) isLiked = true;
+    }
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        const newCards = this.state.cards.map((c) =>
+          c._id === card._id ? newCard : c
+        );
+        this.setState({ cards: newCards });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  handleCardDelete(сard) {
+    api
+      .deleteCard(сard._id)
+      .then((newCard) => {
+        const newCards = this.state.cards.filter((c) => c._id != сard._id);
+        this.setState({ cards: newCards });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  handleAddCard(name, link) {
+    api
+      .addCard(name, link)
+      .then((newCard) => {
+        this.setState({ cards: [newCard, ...this.state.cards] });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.closeAllPopups();
+  }
   render() {
     return (
       <CurrentUserContext.Provider value={this.state.currentUser}>
         <div className="page">
           <Header />
           <Main
+            getInitialCards={this.getInitialCards.bind(this)}
+            handleCardLike={this.handleCardLike.bind(this)}
+            handleCardDelete={this.handleCardDelete.bind(this)}
+            cards={this.state.cards}
             onEditProfile={this.handleEditProfileClick.bind(this)}
             onAddPlace={this.handleAddPlaceClick.bind(this)}
             onEditAvatar={this.handleEditAvatarClick.bind(this)}
@@ -101,18 +161,12 @@ class App extends React.Component {
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isEditAvatarPopupOpen}
           ></EditAvatarPopup>
-          <PopupWithForm
-            value={["title", "link"]}
+          <AddPlacePopup
+            onAddCard={this.handleAddCard.bind(this)}
+            onOpen={this.handleAddPlaceClick.bind(this)}
             onClose={this.closeAllPopups.bind(this)}
             isOpen={this.state.isAddPlacePopupOpen}
-            id="popup-card"
-            class="AddCard"
-            smallForm={false}
-            titleContent="Новое место"
-            additionalTitleClass=""
-            submitValue="Создать"
-            submitId="popup-addCard-button"
-          ></PopupWithForm>
+          ></AddPlacePopup>
           <EditProfilePopup
             onUpdateUser={this.handleUpdateUser.bind(this)}
             onOpen={this.handleEditProfileClick.bind(this)}
