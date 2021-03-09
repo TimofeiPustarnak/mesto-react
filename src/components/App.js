@@ -16,7 +16,6 @@ class App extends React.Component {
     this.state = {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
-      isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
       selectedCard: { isOpen: false, link: "", name: "" },
       currentUser: false,
@@ -44,11 +43,11 @@ class App extends React.Component {
       .patchUserInfo(name, about)
       .then((data) => {
         this.setState({ currentUser: data });
+        this.closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
       });
-    this.closeAllPopups();
   }
   handleUpdateAvatar(link) {
     console.log(link);
@@ -56,11 +55,11 @@ class App extends React.Component {
       .editAvatar(link)
       .then((data) => {
         this.setState({ currentUser: data });
+        this.closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
       });
-    this.closeAllPopups();
   }
 
   closeAllPopups() {
@@ -82,9 +81,6 @@ class App extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
-
-  getInitialCards() {
     api
       .getInitialCards()
       .then((data) => {
@@ -100,7 +96,7 @@ class App extends React.Component {
   handleCardLike(card) {
     let isLiked = false;
     for (let i = 0; i < card.likes.length; ++i) {
-      if (card.likes[i]._id == this.state.currentUser._id) isLiked = true;
+      if (card.likes[i]._id === this.state.currentUser._id) isLiked = true;
     }
     api
       .changeLikeCardStatus(card._id, !isLiked)
@@ -118,7 +114,7 @@ class App extends React.Component {
     api
       .deleteCard(сard._id)
       .then((newCard) => {
-        const newCards = this.state.cards.filter((c) => c._id != сard._id);
+        const newCards = this.state.cards.filter((c) => c._id !== сard._id);
         this.setState({ cards: newCards });
       })
       .catch((err) => {
@@ -130,11 +126,11 @@ class App extends React.Component {
       .addCard(name, link)
       .then((newCard) => {
         this.setState({ cards: [newCard, ...this.state.cards] });
+        this.closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
       });
-    this.closeAllPopups();
   }
   render() {
     return (
@@ -142,7 +138,6 @@ class App extends React.Component {
         <div className="page">
           <Header />
           <Main
-            getInitialCards={this.getInitialCards.bind(this)}
             handleCardLike={this.handleCardLike.bind(this)}
             handleCardDelete={this.handleCardDelete.bind(this)}
             cards={this.state.cards}

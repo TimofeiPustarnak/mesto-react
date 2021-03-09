@@ -21,7 +21,7 @@ class Card extends React.Component {
   render() {
     let isLike = false;
     for (let i = 0; i < this.props.card.likes.length; ++i) {
-      if (this.props.card.likes[i]._id == this.context._id) isLike = true;
+      if (this.props.card.likes[i]._id === this.context._id) isLike = true;
     }
     return (
       <article className="elements__element">

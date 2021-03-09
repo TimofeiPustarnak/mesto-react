@@ -11,9 +11,6 @@ class Main extends React.Component {
     this.handleCardDelete = this.handleCardDelete.bind(this);
   }
   static contextType = CurrentUserContext;
-  componentDidMount() {
-    this.props.getInitialCards();
-  }
   handleCardLike(card) {
     this.props.handleCardLike(card);
   }
