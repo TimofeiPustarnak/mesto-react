@@ -1,5 +1,5 @@
 @import url(/src/vendor/normalize.css);
-/* @import url(/src/vendor/scroll.css); */
+@import url(/src/vendor/scroll.css);
 @import url(/src/vendor/fonts/inter.css);
 @import url(/src/blocks/page/page.css);
 @import url(/src/blocks/header/header.css);
