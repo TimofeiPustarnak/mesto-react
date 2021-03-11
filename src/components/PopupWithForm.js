@@ -34,22 +34,9 @@ class PopupWithForm extends React.Component {
             <h3 className={`popup__title ${this.props.additionalTitleClass}`}>
               {this.props.titleContent}
             </h3>
-            {this.props.fieldsData.map((field, i) => (
-              <div className="popup__input-wrapper" key={i}>
-                <input
-                  type={field.type}
-                  className={`popup__field ${field.className}`}
-                  id={field.id}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  required
-                  minLength={field.minlength}
-                  maxLength={field.maxlength}
-                />
-                <span className="popup__field-error" id={field.spanId}></span>
-              </div>
-            ))}
+            {this.props.children}
             <input
+              onClick={this.props.onSubmit}
               type="submit"
               className="popup__submit-button"
               name="submit-button"

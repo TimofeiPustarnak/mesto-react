@@ -1,58 +1,21 @@
 import React from "react";
 import editImg from "../images/Vector.svg";
 import cross from "../images/Vector(1).svg";
-import api from "../utils/Api";
+import api from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cards: [],
-    };
     this.handleCardLike = this.handleCardLike.bind(this);
     this.handleCardDelete = this.handleCardDelete.bind(this);
   }
   static contextType = CurrentUserContext;
-  componentDidMount() {
-    api
-      .getInitialCards()
-      .then((data) => {
-        this.setState({
-          cards: data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   handleCardLike(card) {
-    let isLiked = false;
-    for (let i = 0; i < card.likes.length; ++i) {
-      if (card.likes[i]._id == this.context._id) isLiked = true;
-    }
-    api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        const newCards = this.state.cards.map((c) =>
-          c._id === card._id ? newCard : c
-        );
-        this.setState({ cards: newCards });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.handleCardLike(card);
   }
-  handleCardDelete(сard) {
-    api
-      .deleteCard(сard._id)
-      .then((newCard) => {
-        const newCards = this.state.cards.filter((c) => c._id != сard._id);
-        this.setState({ cards: newCards });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  handleCardDelete(card) {
+    this.props.handleCardDelete(card);
   }
   render() {
     // console.log(this.context._id);
@@ -92,7 +55,7 @@ class Main extends React.Component {
           </button>
         </section>
         <section className="elements">
-          {this.state.cards.map((card, i) => (
+          {this.props.cards.map((card, i) => (
             <Card
               key={card._id}
               card={card}
