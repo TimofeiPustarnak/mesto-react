@@ -1,13 +1,13 @@
 @import url(./__image/header__image.css);
-
+@import url(./__link/header__link.css);
 .header {
   min-width: 882px;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   margin-top: 45px;
   margin-bottom: 40px;
-  border-bottom: 1px solid rgba(84, 84, 84, .7);
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  justify-content: space-between;
 }
 
 @media (max-width: 1023px) {
