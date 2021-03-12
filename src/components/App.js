@@ -115,7 +115,6 @@ class App extends React.Component {
             this.setState({ email: res.data.email });
             this.handleLogin();
             this.props.history.push("/");
-
             console.log(res.data.email);
           }
         })
