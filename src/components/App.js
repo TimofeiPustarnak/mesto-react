@@ -1,23 +1,19 @@
 import React from "react";
 import Header from "./Header";
 import Main from "./Main";
-import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
-<<<<<<< HEAD
 import Login from "./Login";
 import Register from "./Register";
-import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
-import { Route, Switch } from "react-router-dom";
-=======
+import { Route, Switch, withRouter } from "react-router-dom";
 import api from "../utils/api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
->>>>>>> 5bc49c1404a0f3aa113e4ec1372ea1b8cf233f16
+import ProtectedRoute from "./ProtectedRoute";
+import RegistrationPopup from "./registrationPopup";
+import * as auth from "../utils/auth.js";
 
 class App extends React.Component {
   constructor(props) {
@@ -26,14 +22,16 @@ class App extends React.Component {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
       isEditAvatarPopupOpen: false,
+      isRegistrationPopupOpen: false,
       selectedCard: { isOpen: false, link: "", name: "" },
       currentUser: false,
-<<<<<<< HEAD
       loggedIn: false,
-=======
       cards: [],
->>>>>>> 5bc49c1404a0f3aa113e4ec1372ea1b8cf233f16
+      email: "",
     };
+  }
+  handleRegistrationClick() {
+    this.setState({ isRegistrationPopupOpen: true });
   }
   handleEditAvatarClick() {
     this.setState({ isEditAvatarPopupOpen: true });
@@ -81,6 +79,7 @@ class App extends React.Component {
       isEditProfilePopupOpen: false,
       isAddPlacePopupOpen: false,
       isAddPlacePopupOpen: false,
+      isRegistrationPopupOpen: false,
       selectedCard: { isOpen: false },
     });
   }
@@ -104,6 +103,24 @@ class App extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          console.log(res);
+          if (res) {
+            this.setState({ email: res.data.email });
+            this.handleLogin();
+            this.props.history.push("/");
+
+            console.log(res.data.email);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   handleCardLike(card) {
@@ -145,19 +162,26 @@ class App extends React.Component {
         console.log(err);
       });
   }
+  handleLogin() {
+    this.setState({ loggedIn: true });
+  }
   render() {
     return (
       <CurrentUserContext.Provider value={this.state.currentUser}>
         <div className="page">
-<<<<<<< HEAD
-          <Header linkPath="/sign-up" linkText="Войти" />
+          <Header linkPath="/sign-in" linkText="Войти" />
           <Switch>
-            <Route path="/sign-up"></Route>
-            <Route path="/sign-in">
-              <Login />
+            <Route path="/sign-up">
+              <Register />
             </Route>
-            <Route exact path="/">
+            <Route path="/sign-in">
+              <Login onLogin={this.handleLogin.bind(this)} />
+            </Route>
+            <ProtectedRoute path="/" loggedIn={this.state.loggedIn}>
               <Main
+                handleCardLike={this.handleCardLike.bind(this)}
+                handleCardDelete={this.handleCardDelete.bind(this)}
+                cards={this.state.cards}
                 onEditProfile={this.handleEditProfileClick.bind(this)}
                 onAddPlace={this.handleAddPlaceClick.bind(this)}
                 onEditAvatar={this.handleEditAvatarClick.bind(this)}
@@ -167,68 +191,25 @@ class App extends React.Component {
                 data={this.state.selectedCard}
                 onClose={this.closeAllPopups.bind(this)}
               />
-              <PopupWithForm
+              <EditAvatarPopup
+                onUpdateAvatar={this.handleUpdateAvatar.bind(this)}
                 onClose={this.closeAllPopups.bind(this)}
                 isOpen={this.state.isEditAvatarPopupOpen}
-                id="popup-avatar"
-                class="EditAvatar"
-                smallForm={false}
-                titleContent="Обновить аватар"
-                additionalTitleClass=""
-                fieldsData={[
-                  {
-                    type: "url",
-                    className: "popup__field_type_description",
-                    id: "link-input-edit",
-                    name: "link",
-                    placeholder: "Ссылка на картинку",
-                    minlength: "0",
-                    maxlength: "10000",
-                    spanId: "link-input-edit-error",
-                  },
-                ]}
-                submitValue="Сохранить"
-                submitId="popup-edit-avatar-button"
-              />
-              <PopupWithForm
+              ></EditAvatarPopup>
+              <AddPlacePopup
+                onAddCard={this.handleAddCard.bind(this)}
+                onOpen={this.handleAddPlaceClick.bind(this)}
                 onClose={this.closeAllPopups.bind(this)}
                 isOpen={this.state.isAddPlacePopupOpen}
-                id="popup-card"
-                class="AddCard"
-                smallForm={false}
-                titleContent="Новое место"
-                additionalTitleClass=""
-                fieldsData={[
-                  {
-                    type: "text",
-                    className: "popup__field_type_name",
-                    id: "title-input",
-                    name: "title",
-                    placeholder: "Название",
-                    minlength: "2",
-                    maxlength: "30",
-                    spanId: "title-input-error",
-                  },
-                  {
-                    type: "url",
-                    className: "popup__field_type_description",
-                    id: "link-input",
-                    name: "link",
-                    placeholder: "Ссылка на картинку",
-                    minlength: "0",
-                    maxlength: "10000",
-                    spanId: "link-input-error",
-                  },
-                ]}
-                submitValue="Создать"
-                submitId="popup-addCard-button"
-              />
+              ></AddPlacePopup>
               <EditProfilePopup
+                onUpdateUser={this.handleUpdateUser.bind(this)}
                 onOpen={this.handleEditProfileClick.bind(this)}
                 onClose={this.closeAllPopups.bind(this)}
                 isOpen={this.state.isEditProfilePopupOpen}
               />
               <PopupWithForm
+                value={[]}
                 onClose={this.closeAllPopups.bind(this)}
                 isOpen={false}
                 id="popup-close"
@@ -240,60 +221,17 @@ class App extends React.Component {
                 submitValue="Да"
                 submitId="popup-confirm-button"
               />
-              <Footer />
-            </Route>
+              <RegistrationPopup
+                success={true}
+                onClose={this.closeAllPopups.bind(this)}
+                isOpen={this.state.isRegistrationPopupOpen}
+              />
+            </ProtectedRoute>
           </Switch>
-=======
-          <Header />
-          <Main
-            handleCardLike={this.handleCardLike.bind(this)}
-            handleCardDelete={this.handleCardDelete.bind(this)}
-            cards={this.state.cards}
-            onEditProfile={this.handleEditProfileClick.bind(this)}
-            onAddPlace={this.handleAddPlaceClick.bind(this)}
-            onEditAvatar={this.handleEditAvatarClick.bind(this)}
-            handleCardClick={this.handleCardClick.bind(this)}
-          />
-          <Footer />
-          <ImagePopup
-            data={this.state.selectedCard}
-            onClose={this.closeAllPopups.bind(this)}
-          />
-          <EditAvatarPopup
-            onUpdateAvatar={this.handleUpdateAvatar.bind(this)}
-            onClose={this.closeAllPopups.bind(this)}
-            isOpen={this.state.isEditAvatarPopupOpen}
-          ></EditAvatarPopup>
-          <AddPlacePopup
-            onAddCard={this.handleAddCard.bind(this)}
-            onOpen={this.handleAddPlaceClick.bind(this)}
-            onClose={this.closeAllPopups.bind(this)}
-            isOpen={this.state.isAddPlacePopupOpen}
-          ></AddPlacePopup>
-          <EditProfilePopup
-            onUpdateUser={this.handleUpdateUser.bind(this)}
-            onOpen={this.handleEditProfileClick.bind(this)}
-            onClose={this.closeAllPopups.bind(this)}
-            isOpen={this.state.isEditProfilePopupOpen}
-          />
-          <PopupWithForm
-            value={[]}
-            onClose={this.closeAllPopups.bind(this)}
-            isOpen={false}
-            id="popup-close"
-            class="Confirm"
-            smallForm={true}
-            titleContent="Вы уверены?"
-            additionalTitleClass="popup__title_popup-close"
-            fieldsData={[]}
-            submitValue="Да"
-            submitId="popup-confirm-button"
-          ></PopupWithForm>
->>>>>>> 5bc49c1404a0f3aa113e4ec1372ea1b8cf233f16
         </div>
       </CurrentUserContext.Provider>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

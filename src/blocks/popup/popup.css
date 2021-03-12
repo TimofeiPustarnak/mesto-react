@@ -11,6 +11,8 @@
 @import url(./__input-wrapper/popup__input-wrapper.css);
 @import url(./__title/__title_popup-close/popup__title_popup-close.css);
 @import url(./__container/__container_small/popup__container_small.css);
+@import url(./__union/popup__union.css);
+@import url(./__message/popup__message.css);
 
 .popup {
   position: fixed;

@@ -4,6 +4,8 @@ import cross from "../images/Vector(1).svg";
 import api from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Footer from "./Footer";
+
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -65,6 +67,7 @@ class Main extends React.Component {
             />
           ))}
         </section>
+        <Footer />
       </>
     );
   }
